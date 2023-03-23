@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.0.10
+Type=Application
+Terminal=false
+Exec=gtkcord4-unofficial
+Name=gtkcord4
+Icon=${SNAP}/meta/gui/gtkcord4-unofficial.svg

@@ -1,0 +1,51 @@
+name: gtkcord4-unofficial
+base: core22
+version: '0.0.10'
+summary: GTK4 Discord client in Go
+description: |
+    A GTK4 Discord client in Go
+
+    This is not an official build.
+
+    Source: https://github.com/diamondburned/gtkcord4
+    Snap-Source: https://github.com/nbuechner/gtkcord4-snap
+
+grade: stable
+confinement: strict
+architectures:
+  - build-on: amd64
+    build-for: amd64
+  - build-on: arm64
+    build-for: arm64
+
+slots:
+   dbus-gtkcord4:
+      interface: dbus
+      bus: session
+      name: xyz.diamondb.gtkcord4
+
+apps:
+  gtkcord4-unofficial:
+    command: bin/gtkcord4
+    #desktop: share/applications/xyz.diamondb.gtkcord4.desktop
+    plugs: [home, x11, desktop, network ]
+    extensions: [ gnome ]
+    slots: [ dbus-gtkcord4 ]
+
+parts:
+  main:
+    source: https://github.com/diamondburned/gtkcord4/archive/refs/tags/v0.0.10.tar.gz
+    #source-type: tar
+    plugin: go
+    #organize:
+    #  snap/gthumb-unofficial/current/usr: usr
+
+    override-prime: |
+       craftctl default
+       #sed -i 's|Icon=org.gnome.gThumb|Icon=usr/share/icons/hicolor/scalable/apps/org.gnome.gThumb.svg|g' usr/share/applications/org.gnome.gThumb.desktop
+
+    stage-packages:
+      - desktop-file-utils
+
+    build-snaps:
+       - go
