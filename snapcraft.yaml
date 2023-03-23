@@ -27,7 +27,6 @@ slots:
 apps:
   gtkcord4-unofficial:
     command: bin/gtkcord4
-    #desktop: share/applications/xyz.diamondb.gtkcord4.desktop
     plugs: [home, x11, desktop, network ]
     extensions: [ gnome ]
     slots: [ dbus-gtkcord4 ]
@@ -35,14 +34,9 @@ apps:
 parts:
   main:
     source: https://github.com/diamondburned/gtkcord4/archive/refs/tags/v0.0.10.tar.gz
-    #source-type: tar
     plugin: go
-    #organize:
-    #  snap/gthumb-unofficial/current/usr: usr
-
     override-prime: |
        craftctl default
-       #sed -i 's|Icon=org.gnome.gThumb|Icon=usr/share/icons/hicolor/scalable/apps/org.gnome.gThumb.svg|g' usr/share/applications/org.gnome.gThumb.desktop
 
     stage-packages:
       - desktop-file-utils
