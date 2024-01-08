@@ -1,11 +1,9 @@
-name: gtkcord4-unofficial
+name: gtkcord4
 base: core22
-version: '0.0.10'
-summary: GTK4 Discord client in Go
+adopt-info: main
+summary:  GTK4 Discord client in Go
 description: |
-    A GTK4 Discord client in Go
-
-    This is not an official build.
+    GTK4 Discord client in Go
 
     Source: https://github.com/diamondburned/gtkcord4
     Snap-Source: https://github.com/nbuechner/gtkcord4-snap
@@ -17,29 +15,52 @@ architectures:
     build-for: amd64
   - build-on: arm64
     build-for: arm64
-
 slots:
+   dbus-gtkcord4-sys:
+      interface: dbus
+      bus: system
+      name: so.libdb.gtkcord4
    dbus-gtkcord4:
       interface: dbus
       bus: session
-      name: xyz.diamondb.gtkcord4
-
+      name: so.libdb.gtkcord4
 apps:
-  gtkcord4-unofficial:
+  gtkcord4:
     command: bin/gtkcord4
-    plugs: [home, x11, desktop, network ]
-    extensions: [ gnome ]
+    desktop: share/applications/so.libdb.gtkcord4.desktop
+    plugs: [home, x11, desktop, network, removable-media, password-manager-service ]
     slots: [ dbus-gtkcord4 ]
+    extensions: [ gnome ]
+
+  gtkcord4-dbus:
+    desktop: share/applications/gtkcord4-dbus.desktop
+    command: bin/gtkcord4 --gapplication-service
+    slots: [ dbus-gtkcord4-sys ]
+    daemon: dbus
+    activates-on:
+       - dbus-gtkcord4-sys
 
 parts:
   main:
-    source: https://github.com/diamondburned/gtkcord4/archive/refs/tags/v0.0.10.tar.gz
-    plugin: go
-    override-prime: |
-       craftctl default
+    override-pull: |
+         version=$(wget -qO- https://api.github.com/repos/diamondburned/gtkcord4/releases/latest | jq -r '.tag_name' | cut -c2-)
+         wget -O release.tar.zst https://github.com/diamondburned/gtkcord4/releases/download/v$version/gtkcord4-linux-amd64-v$version-.tar.zst
+         tar xf release.tar.zst
+         rm -f release.tar.zst
+         sed -i -e 's|Icon=gtkcord4|Icon=share/icons/hicolor/256x256/apps/gtkcord4.svg|g' share/applications/so.libdb.gtkcord4.desktop
+         sed -i -e 's|Exed=gtkcord4|Exec=gtkcord4.gtkcord4|g' share/applications/so.libdb.gtkcord4.desktop
+         cp -r ${CRAFT_PROJECT_DIR}/snap/gui/gtkcord4-dbus.desktop share/applications/gtkcord4-dbus.desktop
+         craftctl set version="$version"
+         craftctl default
+    source: .
+    plugin: dump
+    source-type: local
+    build-packages:
+      - wget
+      - zstd
 
-    stage-packages:
-      - desktop-file-utils
-
-    build-snaps:
-       - go
+layout:
+  /usr/share/applications:
+    bind: $SNAP/share/applications
+  /usr/share/icons:
+    bind: $SNAP/share/icons
