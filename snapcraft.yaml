@@ -58,6 +58,7 @@ parts:
     build-packages:
       - wget
       - zstd
+      - jq
 
 layout:
   /usr/share/applications:
