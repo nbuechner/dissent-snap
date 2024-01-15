@@ -16,16 +16,13 @@ architectures:
   - build-on: arm64
     build-for: arm64
 slots:
-   dbus-gtkcord4-sys:
-      interface: dbus
-      bus: system
-      name: so.libdb.gtkcord4
    dbus-gtkcord4:
       interface: dbus
       bus: session
       name: so.libdb.gtkcord4
 apps:
   gtkcord4:
+    command-chain: ["./check.sh"]
     command: bin/gtkcord4
     desktop: share/applications/so.libdb.gtkcord4.desktop
     plugs: [home, x11, desktop, network, removable-media, password-manager-service ]
@@ -35,10 +32,9 @@ apps:
   gtkcord4-dbus:
     desktop: share/applications/gtkcord4-dbus.desktop
     command: bin/gtkcord4 --gapplication-service
-    slots: [ dbus-gtkcord4-sys ]
-    daemon: dbus
-    activates-on:
-       - dbus-gtkcord4-sys
+    extensions: [ gnome ]
+    slots: [ dbus-gtkcord4 ]
+    daemon: simple
 
 parts:
   main:
@@ -49,12 +45,16 @@ parts:
          rm -f release.tar.zst
          sed -i -e 's|Icon=gtkcord4|Icon=share/icons/hicolor/256x256/apps/gtkcord4.svg|g' share/applications/so.libdb.gtkcord4.desktop
          sed -i -e 's|Exed=gtkcord4|Exec=gtkcord4.gtkcord4|g' share/applications/so.libdb.gtkcord4.desktop
-         cp -r ${CRAFT_PROJECT_DIR}/snap/gui/gtkcord4-dbus.desktop share/applications/gtkcord4-dbus.desktop
+         cp -f ${CRAFT_PROJECT_DIR}/snap/gui/gtkcord4-dbus.desktop share/applications/gtkcord4-dbus.desktop
+         cp -f ${CRAFT_PROJECT_DIR}/local/check.sh $SNAPCRAFT_PART_INSTALL/check.sh
+         chmod a+rx $SNAPCRAFT_PART_INSTALL/check.sh
          craftctl set version="$version"
          craftctl default
     source: .
     plugin: dump
     source-type: local
+    stage-packages:
+      - whiptail
     build-packages:
       - wget
       - zstd
@@ -65,3 +65,7 @@ layout:
     bind: $SNAP/share/applications
   /usr/share/icons:
     bind: $SNAP/share/icons
+
+lint:
+  ignore:
+    - library
