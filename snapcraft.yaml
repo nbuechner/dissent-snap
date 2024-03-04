@@ -1,12 +1,12 @@
-name: gtkcord4
+name: dissent
 base: core22
 adopt-info: main
 summary:  GTK4 Discord client in Go
 description: |
     GTK4 Discord client in Go
 
-    Source: https://github.com/diamondburned/gtkcord4
-    Snap-Source: https://github.com/nbuechner/gtkcord4-snap
+    Source: https://github.com/diamondburned/dissent
+    Snap-Source: https://github.com/nbuechner/dissent-snap
 
 grade: stable
 confinement: strict
@@ -16,36 +16,36 @@ architectures:
   - build-on: arm64
     build-for: arm64
 slots:
-   dbus-gtkcord4:
+   dbus-dissent:
       interface: dbus
       bus: session
-      name: so.libdb.gtkcord4
+      name: so.libdb.dissent
 apps:
-  gtkcord4:
+  dissent:
     command-chain: ["./check.sh"]
-    command: bin/gtkcord4
-    desktop: share/applications/so.libdb.gtkcord4.desktop
+    command: bin/dissent
+    desktop: share/applications/so.libdb.dissent.desktop
     plugs: [home, x11, desktop, network, removable-media, password-manager-service ]
-    slots: [ dbus-gtkcord4 ]
+    slots: [ dbus-dissent ]
     extensions: [ gnome ]
 
-  gtkcord4-dbus:
-    desktop: share/applications/gtkcord4-dbus.desktop
-    command: bin/gtkcord4 --gapplication-service
+  dissent-dbus:
+    desktop: share/applications/dissent-dbus.desktop
+    command: bin/dissent --gapplication-service
     extensions: [ gnome ]
-    slots: [ dbus-gtkcord4 ]
+    slots: [ dbus-dissent ]
     daemon: simple
 
 parts:
   main:
     override-pull: |
-         version=$(wget -qO- https://api.github.com/repos/diamondburned/gtkcord4/releases/latest | jq -r '.tag_name' | cut -c2-)
-         wget -O release.tar.zst https://github.com/diamondburned/gtkcord4/releases/download/v$version/gtkcord4-linux-amd64-v$version-.tar.zst
+         version=$(wget -qO- https://api.github.com/repos/diamondburned/dissent/releases/latest | jq -r '.tag_name' | cut -c2-)
+         wget -O release.tar.zst https://github.com/diamondburned/dissent/releases/download/v$version/dissent-linux-amd64-v$version-.tar.zst
          tar xf release.tar.zst
          rm -f release.tar.zst
-         sed -i -e 's|Icon=gtkcord4|Icon=share/icons/hicolor/256x256/apps/gtkcord4.svg|g' share/applications/so.libdb.gtkcord4.desktop
-         sed -i -e 's|Exed=gtkcord4|Exec=gtkcord4.gtkcord4|g' share/applications/so.libdb.gtkcord4.desktop
-         cp -f ${CRAFT_PROJECT_DIR}/snap/gui/gtkcord4-dbus.desktop share/applications/gtkcord4-dbus.desktop
+         sed -i -e 's|Icon=so.libdb.Dissent|Icon=share/icons/hicolor/256x256/apps/dissent.svg|g' share/applications/so.libdb.dissent.desktop
+         sed -i -e 's|Exed=dissent|Exec=dissent.dissent|g' share/applications/so.libdb.dissent.desktop
+         cp -f ${CRAFT_PROJECT_DIR}/snap/gui/dissent-dbus.desktop share/applications/dissent-dbus.desktop
          cp -f ${CRAFT_PROJECT_DIR}/local/check.sh $SNAPCRAFT_PART_INSTALL/check.sh
          chmod a+rx $SNAPCRAFT_PART_INSTALL/check.sh
          craftctl set version="$version"

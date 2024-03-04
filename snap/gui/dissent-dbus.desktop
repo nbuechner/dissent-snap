@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=gtkcord4
-Exec=gtkcord4
-Icon=share/icons/hicolor/256x256/apps/gtkcord4.svg
+Name=dissent
+Exec=dissent
+Icon=share/icons/hicolor/256x256/apps/dissent.svg
 Terminal=true
 Type=Application
 StartupNotify=false

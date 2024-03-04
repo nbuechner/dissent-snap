@@ -14,7 +14,7 @@ jobs:
       - name: Get latest release and write artifact file
         id: get_release
         run: |
-          release_tag=$(curl -s https://api.github.com/repos/diamondburned/gtkcord4/releases/latest | jq -r '.tag_name')
+          release_tag=$(curl -s https://api.github.com/repos/diamondburned/dissent/releases/latest | jq -r '.tag_name')
           echo "release_tag=$release_tag" >> $GITHUB_OUTPUT
           echo "latest release: $release_tag"
       - name: Checkout
@@ -37,11 +37,11 @@ jobs:
       - name: Store artifact
         id: store_artifact
         run: |
-          echo "${{ steps.get_release.outputs.release_tag }}" > gtkcord4-release-info
-          echo "Saved ${{ steps.get_release.outputs.release_tag }} to gtkcord4-release-info"
+          echo "${{ steps.get_release.outputs.release_tag }}" > dissent-release-info
+          echo "Saved ${{ steps.get_release.outputs.release_tag }} to dissent-release-info"
       - name: Upload new artifact
         id: upload_artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gtkcord4-release-info
-          path: gtkcord4-release-info
+          name: dissent-release-info
+          path: dissent-release-info

@@ -14,7 +14,7 @@ if [ -f $SNAP_USER_COMMON/.asked-permissions ]; then
    exit 0
 fi
 
-xdg-open https://buechner.me/gtkcord4/permissions.html
+xdg-open https://buechner.me/dissent/permissions.html
 
 touch $SNAP_USER_COMMON/.asked-permissions
 

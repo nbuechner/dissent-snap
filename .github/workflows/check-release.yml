@@ -1,4 +1,4 @@
-name: Check for new release of gtkcord4
+name: Check for new release of dissent
 
 on:
   schedule:
@@ -14,7 +14,7 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2 # It's not possible to use actions/upload-artifact as of the time of writing
         with:
-          name: gtkcord4-release-info
+          name: dissent-release-info
           workflow_conclusion: success
           workflow: build-and-publish.yml
           if_no_artifact_found: warn
@@ -23,7 +23,7 @@ jobs:
         id: get_release
         run: |
           # Fetch release information and extract the release tag
-          RELEASE_TAG=$(curl -s https://api.github.com/repos/diamondburned/gtkcord4/releases/latest | jq -r '.tag_name')
+          RELEASE_TAG=$(curl -s https://api.github.com/repos/diamondburned/dissent/releases/latest | jq -r '.tag_name')
           echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
           echo "latest release: $RELEASE_TAG"
 
@@ -31,7 +31,7 @@ jobs:
         id: compare_release
         run: |
           # Read the release info from the downloaded artifact
-          PREVIOUS_RELEASE=$(cat gtkcord4-release-info 2> /dev/null || echo "NONE")
+          PREVIOUS_RELEASE=$(cat dissent-release-info 2> /dev/null || echo "NONE")
           echo "previous release: $PREVIOUS_RELEASE"
 
           # Compare the fetched release tag with the previous release tag
