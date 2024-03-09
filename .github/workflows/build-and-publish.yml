@@ -45,3 +45,4 @@ jobs:
         with:
           name: dissent-release-info
           path: dissent-release-info
+          overwrite: true
