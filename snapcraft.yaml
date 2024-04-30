@@ -40,7 +40,7 @@ parts:
   main:
     override-pull: |
          version=$(wget -qO- https://api.github.com/repos/diamondburned/dissent/releases/latest | jq -r '.tag_name' | cut -c2-)
-         wget -O release.tar.zst https://github.com/diamondburned/dissent/releases/download/v$version/dissent-linux-amd64-v$version-.tar.zst
+         wget -O release.tar.zst https://github.com/diamondburned/dissent/releases/download/v$version/dissent-linux-amd64.tar.zst
          tar xf release.tar.zst
          rm -f release.tar.zst
          sed -i -e 's|Icon=so.libdb.dissent|Icon=share/icons/hicolor/256x256/apps/so.libdb.dissent.svg|g' share/applications/so.libdb.dissent.desktop
