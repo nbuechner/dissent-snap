@@ -44,7 +44,7 @@ parts:
          tar xf release.tar.zst
          rm -f release.tar.zst
          sed -i -e 's|Icon=so.libdb.dissent|Icon=share/icons/hicolor/scalable/apps/so.libdb.dissent.svg|g' share/applications/so.libdb.dissent.desktop
-         sed -i -e 's|Exed=dissent|Exec=dissent.dissent|g' share/applications/so.libdb.dissent.desktop
+         sed -i -e 's|Exec=dissent|Exec=dissent.dissent|g' share/applications/so.libdb.dissent.desktop
          cp -f ${CRAFT_PROJECT_DIR}/snap/gui/dissent-dbus.desktop share/applications/dissent-dbus.desktop
          cp -f ${CRAFT_PROJECT_DIR}/local/check.sh $SNAPCRAFT_PART_INSTALL/check.sh
          chmod a+rx $SNAPCRAFT_PART_INSTALL/check.sh
