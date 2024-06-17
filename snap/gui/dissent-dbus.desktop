@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=dissent
 Exec=dissent
-Icon=share/icons/hicolor/256x256/apps/so.libdb.dissent.svg
+Icon=share/icons/hicolor/scalable/apps/so.libdb.dissent.svg
 Terminal=true
 Type=Application
 StartupNotify=false
