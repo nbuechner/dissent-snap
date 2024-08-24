@@ -15,6 +15,9 @@ platforms:
   amd64:
     build-on: amd64
     build-for: amd64
+  arm64:
+    build-on: arm64
+    build-for: arm64
 
 slots:
    dbus-dissent:
@@ -40,8 +43,12 @@ apps:
 parts:
   main:
     override-pull: |
+         MYARCH="amd64"
+         if [ $(uname -i) == 'aarch64' ]; then
+            MYARCH="arm64"
+         fi
          version=$(wget -qO- https://api.github.com/repos/diamondburned/dissent/releases/latest | jq -r '.tag_name' | cut -c2-)
-         wget -O release.tar.zst https://github.com/diamondburned/dissent/releases/download/v$version/dissent-linux-amd64.tar.zst
+         wget -O release.tar.zst https://github.com/diamondburned/dissent/releases/download/v$version/dissent-linux-${MYARCH}.tar.zst
          tar xf release.tar.zst
          rm -f release.tar.zst
          sed -i -e 's|Icon=so.libdb.dissent|Icon=share/icons/hicolor/scalable/apps/so.libdb.dissent.svg|g' share/applications/so.libdb.dissent.desktop
