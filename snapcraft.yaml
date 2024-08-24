@@ -1,5 +1,5 @@
 name: dissent
-base: core22
+base: core24
 adopt-info: main
 summary:  GTK4 Discord client in Go
 description: |
@@ -10,11 +10,12 @@ description: |
 
 grade: stable
 confinement: strict
-architectures:
-  - build-on: amd64
+
+platforms:
+  amd64:
+    build-on: amd64
     build-for: amd64
-  - build-on: arm64
-    build-for: arm64
+
 slots:
    dbus-dissent:
       interface: dbus
@@ -55,6 +56,8 @@ parts:
     source-type: local
     stage-packages:
       - whiptail
+      - libgtksourceview-5-0
+      - libspelling-1-1
     build-packages:
       - wget
       - zstd
