@@ -1,5 +1,5 @@
 name: dissent
-base: core24
+base: core26
 adopt-info: main
 summary:  GTK4 Discord client in Go
 description: |
@@ -64,7 +64,7 @@ parts:
     stage-packages:
       - whiptail
       - libgtksourceview-5-0
-      - libspelling-1-1
+      - libspelling-1-2
     build-packages:
       - wget
       - zstd
